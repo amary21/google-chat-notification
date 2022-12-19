@@ -11,6 +11,9 @@ inputs:
   status:
     description: 'job status.'
     required: true
+  open_check_url:
+    description: 'open check url.'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
