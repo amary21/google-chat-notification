@@ -28,7 +28,7 @@ export async function notify(name: string, url: string, status: Status, openChec
   const repoUrl = `https://github.com/${owner}/${repo}`;
   const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
   const eventUrl = `${repoUrl}${eventPath}`;
-  const checksUrl = openCheckUrl === "" ? `${repoUrl}${eventPath}/checks` : openCheckUrl;
+  const checksUrl = openCheckUrl === "" ? `${repoUrl}${eventPath}/checks` : `${openCheckUrl}`;
 
   const body = {
     cards: [{

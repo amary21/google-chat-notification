@@ -872,8 +872,9 @@ function run() {
             const name = core.getInput('name', { required: true });
             const url = core.getInput('url', { required: true });
             const status = JobStatus.parse(core.getInput('status', { required: true }));
-            core.debug(`input params: name=${name}, status=${status}, url=${url}`);
-            yield GoogleChat.notify(name, url, status);
+            const openCheckUrl = core.getInput('open_check_url', { required: true });
+            core.debug(`input params: name=${name}, status=${status}, url=${url}, open_check_url=${openCheckUrl}`);
+            yield GoogleChat.notify(name, url, status, openCheckUrl);
             console.info('Sent message.');
         }
         catch (error) {
@@ -2616,7 +2617,7 @@ const textButton = (text, url) => ({
         onClick: { openLink: { url } }
     }
 });
-function notify(name, url, status) {
+function notify(name, url, status, openCheckUrl = "") {
     return __awaiter(this, void 0, void 0, function* () {
         const { owner, repo } = github.context.repo;
         const { eventName, sha, ref } = github.context;
@@ -2624,7 +2625,7 @@ function notify(name, url, status) {
         const repoUrl = `https://github.com/${owner}/${repo}`;
         const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
         const eventUrl = `${repoUrl}${eventPath}`;
-        const checksUrl = `${repoUrl}${eventPath}/checks`;
+        const checksUrl = openCheckUrl === "" ? `${repoUrl}${eventPath}/checks` : `${openCheckUrl}`;
         const body = {
             cards: [{
                     sections: [
