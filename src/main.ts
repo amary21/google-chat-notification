@@ -8,8 +8,8 @@ async function run() {
     const headerName = core.getInput('header_name', { required: true });
     const headerIconUrl = core.getInput('header_icon_url', { required: true });
     const status = JobStatus.parse(core.getInput('status', { required: true }));
-    const versionApp = JobStatus.parse(core.getInput('version_app', { required: true }));
-    const releaseNote = JobStatus.parse(core.getInput('release_note', { required: true }));
+    const versionApp = core.getInput('version_app', { required: true });
+    const releaseNote = core.getInput('release_note', { required: true });
     const urlDownload = core.getInput('url_download', { required: true });
 
     core.debug(`input params: url=${url}, header_name=${headerName}, header_icon_url=${headerIconUrl}, status=${status}, version_app=${versionApp}, release_note=${releaseNote} url_download=${urlDownload}`);
