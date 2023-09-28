@@ -23,7 +23,7 @@ const textButton = (text: string, url: string) => ({
 
 export async function notify(url: string, headerName: string, headerIconUrl: string, status: Status, versionApp: string, releaseNote: string, urlDownload: string) {
   const { owner, repo } = github.context.repo;
-  const { eventName, sha, ref } = github.context;
+  const { eventName, sha } = github.context;
   const { number } = github.context.issue;
   const repoUrl = `https://github.com/${owner}/${repo}`;
   const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
@@ -55,9 +55,7 @@ export async function notify(url: string, headerName: string, headerIconUrl: str
             {
               keyValue: {
                 content: "Changes Code",
-                button: {
-                  textButton: textButton("CHECK", eventUrl)
-                }
+                button: textButton("CHECK", eventUrl)
               }
             }
           ]
