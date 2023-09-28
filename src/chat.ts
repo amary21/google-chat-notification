@@ -21,15 +21,7 @@ const textButton = (text: string, url: string) => ({
   }
 });
 
-export async function notify(
-  url: string,
-  headerName: string = "", 
-  headerIconUrl: string = "",
-  status: Status, 
-  versionApp: string = "",
-  releaseNote: string = "",
-  urlDownload: String = ""
-) {
+export async function notify(url: string, headerName: string, headerIconUrl: string, status: Status, versionApp: string, releaseNote: string, urlDownload: string) {
   const { owner, repo } = github.context.repo;
   const { eventName, sha, ref } = github.context;
   const { number } = github.context.issue;
