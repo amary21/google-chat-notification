@@ -869,12 +869,15 @@ const GoogleChat = __importStar(__webpack_require__(320));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const name = core.getInput('name', { required: true });
             const url = core.getInput('url', { required: true });
+            const headerName = core.getInput('header_name', { required: true });
+            const headerIconUrl = core.getInput('header_icon_url', { required: true });
             const status = JobStatus.parse(core.getInput('status', { required: true }));
-            const openCheckUrl = core.getInput('open_check_url', { required: true });
-            core.debug(`input params: name=${name}, status=${status}, url=${url}, open_check_url=${openCheckUrl}`);
-            yield GoogleChat.notify(name, url, status, openCheckUrl);
+            const versionApp = core.getInput('version_app', { required: true });
+            const releaseNote = core.getInput('release_note', { required: true });
+            const urlDownload = core.getInput('url_download', { required: true });
+            core.debug(`input params: url=${url}, header_name=${headerName}, header_icon_url=${headerIconUrl}, status=${status}, version_app=${versionApp}, release_note=${releaseNote} url_download=${urlDownload}`);
+            yield GoogleChat.notify(url, headerName, headerIconUrl, status, versionApp, releaseNote, urlDownload);
             console.info('Sent message.');
         }
         catch (error) {
@@ -2617,7 +2620,7 @@ const textButton = (text, url) => ({
         onClick: { openLink: { url } }
     }
 });
-function notify(name, url, status, openCheckUrl = "") {
+function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote, urlDownload) {
     return __awaiter(this, void 0, void 0, function* () {
         const { owner, repo } = github.context.repo;
         const { eventName, sha, ref } = github.context;
@@ -2625,45 +2628,51 @@ function notify(name, url, status, openCheckUrl = "") {
         const repoUrl = `https://github.com/${owner}/${repo}`;
         const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
         const eventUrl = `${repoUrl}${eventPath}`;
-        const checksUrl = openCheckUrl === "" ? `${repoUrl}${eventPath}/checks` : `${openCheckUrl}`;
         const body = {
-            cards: [{
+            card: [{
                     sections: [
                         {
-                            widgets: [{
-                                    textParagraph: {
-                                        text: `<b>${name} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
+                            widgets: [
+                                {
+                                    keyValue: {
+                                        topLabel: "version",
+                                        content: `${versionApp}`,
+                                        contentMultiline: false
                                     }
-                                }]
+                                },
+                                {
+                                    keyValue: {
+                                        topLabel: "Release Note",
+                                        content: `${releaseNote}`,
+                                        contentMultiline: true
+                                    }
+                                }
+                            ]
                         },
                         {
                             widgets: [
                                 {
                                     keyValue: {
-                                        topLabel: "repository",
-                                        content: `${owner}/${repo}`,
-                                        contentMultiline: true,
-                                        button: textButton("OPEN REPOSITORY", repoUrl)
+                                        content: "Changes Code",
+                                        button: {
+                                            textButton: textButton("CHECK", eventUrl)
+                                        }
                                     }
-                                },
-                                {
-                                    keyValue: {
-                                        topLabel: "event name",
-                                        content: eventName,
-                                        button: textButton("OPEN EVENT", eventUrl)
-                                    }
-                                },
-                                {
-                                    keyValue: { topLabel: "ref", content: ref }
                                 }
                             ]
                         },
                         {
                             widgets: [{
-                                    buttons: [textButton("OPEN CHECKS", checksUrl)]
+                                    buttons: [textButton("DOWNLOAD APK", urlDownload)]
                                 }]
                         }
-                    ]
+                    ],
+                    header: {
+                        title: `${headerName}`,
+                        subtitle: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`,
+                        imageUrl: `${headerIconUrl}`,
+                        imageStyle: "AVATAR"
+                    }
                 }]
         };
         const response = yield axios.default.post(url, body);
