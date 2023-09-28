@@ -2675,7 +2675,7 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
         };
         const response = yield axios.default.post(url, body);
         if (response.status !== 200) {
-            throw new Error(`Google Chat notification failed. response status=${response.status}`);
+            throw new Error(`Google Chat notification failed. response status=${response.status}, full response=${response}`);
         }
     });
 }
