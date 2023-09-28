@@ -2,18 +2,27 @@ name: 'google-chat-notify'
 description: 'Google Chat Notification for GitHub Actions'
 author: 'amary21'
 inputs:
-  name:
-    description: 'job name.'
-    required: true
   url:
     description: 'google chat webhook url.'
+    required: true
+  header_name:
+    description: 'header name card.'
+    required: true
+  header_icon_url:
+    description: 'url icon for header card.'
     required: true
   status:
     description: 'job status.'
     required: true
-  open_check_url:
-    description: 'open check url.'
-    required: false
+  version_app:
+    description: 'version app release.'
+    required: true
+  release_note:
+    description: 'release note app.'
+    required: true
+  url_download:
+    description: 'url download app.'
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
