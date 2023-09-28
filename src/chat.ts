@@ -21,53 +21,67 @@ const textButton = (text: string, url: string) => ({
   }
 });
 
-export async function notify(name: string, url: string, status: Status, openCheckUrl: String = "") {
+export async function notify(
+  url: string,
+  headerName: string = "", 
+  headerIconUrl: string = "",
+  status: Status, 
+  versionApp: string = "",
+  releaseNote: string = "",
+  urlDownload: String = ""
+) {
   const { owner, repo } = github.context.repo;
   const { eventName, sha, ref } = github.context;
   const { number } = github.context.issue;
   const repoUrl = `https://github.com/${owner}/${repo}`;
   const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
   const eventUrl = `${repoUrl}${eventPath}`;
-  const checksUrl = openCheckUrl === "" ? `${repoUrl}${eventPath}/checks` : `${openCheckUrl}`;
 
   const body = {
-    cards: [{
+    card: [{
       sections: [
         {
-          widgets: [{
-            textParagraph: {
-              text: `<b>${name} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
+          widgets: [
+            {
+              keyValue: {
+                topLabel: "version",
+                content: `${versionApp}`,
+                contentMultiline: false
+              }
+            },
+            {
+              keyValue: {
+                topLabel: "Release Note",
+                content: `${releaseNote}`,
+                contentMultiline: true
+              }
             }
-          }]
+          ]
         },
         {
           widgets: [
             {
               keyValue: {
-                topLabel: "repository",
-                content: `${owner}/${repo}`,
-                contentMultiline: true,
-                button: textButton("OPEN REPOSITORY", repoUrl)
+                content: "Changes Code",
+                button: {
+                  textButton: textButton("CHECK", eventUrl)
+                }
               }
-            },
-            {
-              keyValue: {
-                topLabel: "event name",
-                content: eventName,
-                button: textButton("OPEN EVENT", eventUrl)
-              }
-            },
-            {
-              keyValue: { topLabel: "ref", content: ref }
             }
           ]
         },
         {
           widgets: [{
-            buttons: [textButton("OPEN CHECKS", checksUrl)]
+            buttons: [textButton("DOWNLOAD APK", urlDownload)]
           }]
         }
-      ]
+      ],
+      header: {
+        title: `${headerName}`,
+        subtitle: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`,
+        imageUrl: `${headerIconUrl}`,
+        imageStyle: "AVATAR"
+      }
     }]
   };
 
