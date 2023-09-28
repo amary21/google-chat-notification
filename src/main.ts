@@ -14,7 +14,7 @@ async function run() {
 
     core.debug(`input params: url=${url}, header_name=${headerName}, header_icon_url=${headerIconUrl}, status=${status}, version_app=${versionApp}, release_note=${releaseNote} url_download=${urlDownload}`);
 
-    await GoogleChat.notify(name, url, status, openCheckUrl);
+    await GoogleChat.notify(url, headerName, headerIconUrl, status, versionApp, releaseNote, urlDownload);
     console.info('Sent message.')
   } catch (error: unknown) {
     if (error instanceof Error) {
