@@ -2705,17 +2705,9 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                             widgets: [
                                 {
                                     keyValue: {
-                                        topLabel: "repository",
-                                        content: `${owner}/${repo}`,
-                                        contentMultiline: true,
-                                        button: textButton("OPEN REPOSITORY", repoUrl)
-                                    }
-                                },
-                                {
-                                    keyValue: {
-                                        topLabel: "event name",
+                                        topLabel: "Changes Code",
                                         content: eventName,
-                                        button: textButton("OPEN EVENT", eventUrl)
+                                        button: textButton("CHECK", eventUrl)
                                     }
                                 }
                             ]
