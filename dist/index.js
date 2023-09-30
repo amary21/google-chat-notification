@@ -2713,9 +2713,8 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                                 },
                                 {
                                     keyValue: {
-                                        topLabel: "Changes Code",
-                                        content: eventName,
-                                        button: textButton("OPEN EVENT", eventUrl)
+                                        content: "CHANGES CODE",
+                                        button: textButton("CHECK", eventUrl)
                                     }
                                 }
                             ]
