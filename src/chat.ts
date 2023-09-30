@@ -107,19 +107,16 @@ export async function notify(url: string, headerName: string, headerIconUrl: str
           widgets: [
             {
               keyValue: {
-                topLabel: "repository",
-                content: `${owner}/${repo}`,
-                contentMultiline: true,
-                button: textButton("OPEN REPOSITORY", repoUrl)
-              }
-            },
-            {
-              keyValue: {
-                content: "CHANGES CODE",
+                content: "Changes Code",
                 button: textButton("CHECK", eventUrl)
               }
             }
           ]
+        },
+        {
+          widgets: [{
+            buttons: [textButton("DOWNLOAD APK", urlDownload)]
+          }]
         }
       ],
       header: {
