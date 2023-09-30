@@ -2706,6 +2706,7 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                                 {
                                     keyValue: {
                                         topLabel: "Changes Code",
+                                        content: "",
                                         button: textButton("CHECK", eventUrl)
                                     }
                                 }

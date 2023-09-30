@@ -108,6 +108,7 @@ export async function notify(url: string, headerName: string, headerIconUrl: str
             {
               keyValue: {
                 topLabel: "Changes Code",
+                content: "",
                 button: textButton("CHECK", eventUrl)
               }
             }
