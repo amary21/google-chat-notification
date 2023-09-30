@@ -2702,7 +2702,13 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                                 }
                             ]
                         }
-                    ]
+                    ],
+                    header: {
+                        title: `${headerName}`,
+                        subtitle: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`,
+                        imageUrl: `${headerIconUrl}`,
+                        imageStyle: "AVATAR"
+                    }
                 }]
         };
         const response = yield axios.default.post(url, body2);

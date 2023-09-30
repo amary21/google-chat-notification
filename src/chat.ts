@@ -104,7 +104,13 @@ export async function notify(url: string, headerName: string, headerIconUrl: str
             }
           ]
         }
-      ]
+      ],
+      header: {
+        title: `${headerName}`,
+        subtitle: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`,
+        imageUrl: `${headerIconUrl}`,
+        imageStyle: "AVATAR"
+      }
     }]
   };
 
