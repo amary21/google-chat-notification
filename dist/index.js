@@ -2673,7 +2673,39 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                     }
                 }]
         };
-        const response = yield axios.default.post(url, body);
+        const body2 = {
+            cards: [{
+                    sections: [
+                        {
+                            widgets: [{
+                                    textParagraph: {
+                                        text: `<b>${headerName} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
+                                    }
+                                }]
+                        },
+                        {
+                            widgets: [
+                                {
+                                    keyValue: {
+                                        topLabel: "repository",
+                                        content: `${owner}/${repo}`,
+                                        contentMultiline: true,
+                                        button: textButton("OPEN REPOSITORY", repoUrl)
+                                    }
+                                },
+                                {
+                                    keyValue: {
+                                        topLabel: "event name",
+                                        content: eventName,
+                                        button: textButton("OPEN EVENT", eventUrl)
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }]
+        };
+        const response = yield axios.default.post(url, body2);
         if (response.status !== 200) {
             throw new Error(`Google Chat notification failed. response status=${response.status}, full response=${response}`);
         }
