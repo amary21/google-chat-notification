@@ -2652,16 +2652,6 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                         {
                             widgets: [
                                 {
-                                    decoratedText: {
-                                        topLabel: "Status",
-                                        text: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            widgets: [
-                                {
                                     keyValue: {
                                         content: "Changes Code",
                                         button: textButton("CHECK", eventUrl)
