@@ -2677,6 +2677,24 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
             cards: [{
                     sections: [
                         {
+                            widgets: [
+                                {
+                                    keyValue: {
+                                        topLabel: "Version",
+                                        content: `${versionApp}`,
+                                        contentMultiline: false
+                                    }
+                                },
+                                {
+                                    keyValue: {
+                                        topLabel: "Release Note",
+                                        content: `${releaseNote}`,
+                                        contentMultiline: true
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             widgets: [{
                                     textParagraph: {
                                         text: `<b>${headerName} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
