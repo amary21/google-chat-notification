@@ -2629,51 +2629,6 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
         const eventPath = eventName === 'pull_request' ? `/pull/${number}` : `/commit/${sha}`;
         const eventUrl = `${repoUrl}${eventPath}`;
         const body = {
-            card: [{
-                    sections: [
-                        {
-                            widgets: [
-                                {
-                                    keyValue: {
-                                        topLabel: "version",
-                                        content: `${versionApp}`,
-                                        contentMultiline: false
-                                    }
-                                },
-                                {
-                                    keyValue: {
-                                        topLabel: "Release Note",
-                                        content: `${releaseNote}`,
-                                        contentMultiline: true
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            widgets: [
-                                {
-                                    keyValue: {
-                                        content: "Changes Code",
-                                        button: textButton("CHECK", eventUrl)
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            widgets: [{
-                                    buttons: [textButton("DOWNLOAD APK", urlDownload)]
-                                }]
-                        }
-                    ],
-                    header: {
-                        title: `${headerName}`,
-                        subtitle: `<b><font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`,
-                        imageUrl: `${headerIconUrl}`,
-                        imageStyle: "AVATAR"
-                    }
-                }]
-        };
-        const body2 = {
             cards: [{
                     sections: [
                         {
@@ -2695,13 +2650,6 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                             ]
                         },
                         {
-                            widgets: [{
-                                    textParagraph: {
-                                        text: `<b>${headerName} <font color="${statusColorPalette[status]}">${statusText[status]}</font></b>`
-                                    }
-                                }]
-                        },
-                        {
                             widgets: [
                                 {
                                     keyValue: {
@@ -2725,7 +2673,7 @@ function notify(url, headerName, headerIconUrl, status, versionApp, releaseNote,
                     }
                 }]
         };
-        const response = yield axios.default.post(url, body2);
+        const response = yield axios.default.post(url, body);
         if (response.status !== 200) {
             throw new Error(`Google Chat notification failed. response status=${response.status}, full response=${response}`);
         }
